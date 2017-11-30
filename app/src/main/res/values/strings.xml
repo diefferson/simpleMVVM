@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Simple MVVM</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="profile">Perfil</string>
+    <string name="home">Início</string>
+    <string name="login">Login</string>
+    <string name="main">Main</string>
+</resources>
