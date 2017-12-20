@@ -1,4 +1,4 @@
-package br.com.disapps.simplemvvm
+package br.com.disapps.simplemvvm.ui.main
 
 import android.arch.lifecycle.ViewModel
 import javax.inject.Inject

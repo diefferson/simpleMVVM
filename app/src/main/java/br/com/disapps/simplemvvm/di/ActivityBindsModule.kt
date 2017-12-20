@@ -1,6 +1,6 @@
 package br.com.disapps.simplemvvm.di
 
-import br.com.disapps.simplemvvm.MainActivity
+import br.com.disapps.simplemvvm.ui.main.MainActivity
 import br.com.disapps.simplemvvm.ui.login.LoginActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
