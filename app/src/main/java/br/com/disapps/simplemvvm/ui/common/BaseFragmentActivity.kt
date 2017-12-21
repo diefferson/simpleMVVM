@@ -2,6 +2,7 @@ package br.com.disapps.simplemvvm.ui.common
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
@@ -15,21 +16,23 @@ import javax.inject.Inject
 /**
  * Created by diefferson on 29/11/2017.
  */
-abstract class BaseFragmentActivity<V : ViewModel> : AppCompatActivity(), IBaseFragmentActivityListener, HasSupportFragmentInjector {
+abstract class BaseFragmentActivity : AppCompatActivity(), IBaseFragmentActivityListener, HasSupportFragmentInjector {
 
     @Inject
     protected lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-
-    abstract val mViewModel: V
+    abstract val viewModelClass: Class<out ViewModel>
     abstract val activityTag: String
     abstract val activityName: String
     abstract val activityLayout: Int
     abstract val container: FrameLayout
     abstract val toolbar : Toolbar
-    abstract val initialFragment : BaseFragment<*>
+    abstract val initialFragment : BaseFragment
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    val mViewModel: ViewModel by lazy { ViewModelProviders.of(this, viewModelFactory).get(viewModelClass)}
 
     private val fragmentTransaction: FragmentTransaction
         get() = supportFragmentManager.beginTransaction()
@@ -51,8 +54,8 @@ abstract class BaseFragmentActivity<V : ViewModel> : AppCompatActivity(), IBaseF
 
     override fun replaceFragment(fragment: Fragment) {
         val ft = fragmentTransaction
-        if (fragment is BaseFragment<*>) {
-            ft.replace(container!!.id, fragment, fragment.fragmentTag)
+        if (fragment is BaseFragment) {
+            ft.replace(container.id, fragment, fragment.fragmentTag)
         } else {
             ft.replace(container!!.id, fragment, fragment.javaClass.simpleName)
         }
@@ -63,11 +66,11 @@ abstract class BaseFragmentActivity<V : ViewModel> : AppCompatActivity(), IBaseF
     override fun replaceAndBackStackFragment(fragment: Fragment) {
         val ft = fragmentTransaction
 
-        if (fragment is BaseFragment<*>) {
-            ft.replace(container!!.id, fragment, fragment.fragmentTag)
+        if (fragment is BaseFragment) {
+            ft.replace(container.id, fragment, fragment.fragmentTag)
             ft.addToBackStack(fragment.fragmentTag)
         } else {
-            ft.replace(container!!.id, fragment, fragment.javaClass.simpleName)
+            ft.replace(container.id, fragment, fragment.javaClass.simpleName)
             ft.addToBackStack(fragment.javaClass.simpleName)
         }
 

@@ -1,5 +1,6 @@
 package br.com.disapps.simplemvvm.ui.main
 
+import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.design.widget.NavigationView
@@ -19,10 +20,10 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.include_container.*
 import kotlinx.android.synthetic.main.include_toolbar.*
 
-class MainActivity : BaseFragmentActivity<MainViewModel>(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : BaseFragmentActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    override val mViewModel: MainViewModel
-        get() = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
+    override val viewModelClass: Class<out ViewModel>
+        get() = MainViewModel::class.java
 
     override val activityTag: String
         get() = MainActivity::class.java.simpleName
@@ -39,7 +40,7 @@ class MainActivity : BaseFragmentActivity<MainViewModel>(), NavigationView.OnNav
     override val toolbar: Toolbar
         get() = vToolbar
 
-    override val initialFragment: BaseFragment<*>
+    override val initialFragment: BaseFragment
         get() = HomeFragment.newInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
